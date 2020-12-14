@@ -70,6 +70,7 @@ $store_email = 'yourmart@email.com';
 $store_website = 'yourmart.com';
 $tax_percentage = 10;
 $transaction_id = 'TX123ABC456';
+$discount = 0;
 
 // Set items
 $items = [
@@ -115,6 +116,9 @@ foreach ($items as $item) {
 }
 // Set tax
 $printer->setTax($tax_percentage);
+
+// Set tax
+$printer->setDiscount($discount);
 
 // Calculate total
 $printer->calculateSubTotal();
