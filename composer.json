@@ -1,6 +1,6 @@
 {
-    "name": "hizbul/receiptprinter",
-    "description": ":description",
+    "name": "hizbul/pos-print",
+    "description": "POS receipt print package",
     "license": "MIT",
     "authors": [
         {
