@@ -1,16 +1,18 @@
 <?php
 
-namespace charlieuki\ReceiptPrinter;
+namespace Hizbul\ReceiptPrinter;
 
-use charlieuki\ReceiptPrinter\Item as Item;
-use charlieuki\ReceiptPrinter\Store as Store;
+use Exception;
 use Mike42\Escpos\Printer;
-use Mike42\Escpos\CapabilityProfile;
 use Mike42\Escpos\EscposImage;
+use Mike42\Escpos\CapabilityProfile;
+use Hizbul\ReceiptPrinter\Item as Item;
+use Hizbul\ReceiptPrinter\Store as Store;
 use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+
 
 class ReceiptPrinter
 {
@@ -22,13 +24,13 @@ class ReceiptPrinter
     private $subtotal = 0;
     private $tax_percentage = 10;
     private $tax = 0;
+    private $discount = 0;
     private $grandtotal = 0;
     private $request_amount = 0;
     private $qr_code = [];
     private $transaction_id = '';
 
     function __construct() {
-        $this->printer = null;
         $this->items = [];
     }
 
@@ -42,7 +44,7 @@ class ReceiptPrinter
                 $connector = new CupsPrintConnector($connector_descriptor);
                 break;
             case 'windows':
-                $connector = new WindowsPrintConnector($connector_descriptor);
+                $connector = new WindowsPrintConnector ($connector_descriptor);
                 break;
             case 'network':
                 $connector = new NetworkPrintConnector($connector_descriptor);
@@ -90,6 +92,10 @@ class ReceiptPrinter
         $this->tax = (int) $this->tax_percentage / 100 * (int) $this->subtotal;
     }
 
+    public function setDiscount(float $discount) {
+        $this->discount = $discount;
+    }
+
     public function calculateSubtotal() {
         $this->subtotal = 0;
 
@@ -103,7 +109,7 @@ class ReceiptPrinter
             $this->calculateSubtotal();
         }
 
-        $this->grandtotal = (int) $this->subtotal + (int) $this->tax;
+        $this->grandtotal = (int) $this->subtotal - $this->discount + (int) $this->tax;
     }
 
     public function setTransactionID($transaction_id) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace charlieuki\ReceiptPrinter;
+namespace Hizbul\ReceiptPrinter;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,8 +13,8 @@ class ReceiptPrinterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'charlieuki');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'charlieuki');
+        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'Hizbul');
+        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'Hizbul');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
@@ -63,17 +63,17 @@ class ReceiptPrinterServiceProvider extends ServiceProvider
 
         // Publishing the views.
         /*$this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/charlieuki'),
+            __DIR__.'/../resources/views' => base_path('resources/views/vendor/Hizbul'),
         ], 'receiptprinter.views');*/
 
         // Publishing assets.
         /*$this->publishes([
-            __DIR__.'/../resources/assets' => public_path('vendor/charlieuki'),
+            __DIR__.'/../resources/assets' => public_path('vendor/Hizbul'),
         ], 'receiptprinter.views');*/
 
         // Publishing the translation files.
         /*$this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/charlieuki'),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/Hizbul'),
         ], 'receiptprinter.views');*/
 
         // Registering package commands.
