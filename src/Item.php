@@ -2,12 +2,14 @@
 
 namespace Hizbul\ReceiptPrinter;
 
+use NumberFormatter;
+
 class Item
 {
     private $name;
     private $qty;
     private $price;
-    private $currency = 'Rp';
+    private $local;
 
     function __construct($name, $qty, $price) {
         $this->name = $name;
@@ -15,8 +17,8 @@ class Item
         $this->price = $price;
     }
 
-    public function setCurrency($currency) {
-        $this->currency = $currency;
+    public function setLocal($local = null) {
+        $this->local = $local ?? config('receiptprinter.local') ;
     }
 
     public function getQty() {
@@ -31,9 +33,9 @@ class Item
     {
         $right_cols = 10;
         $left_cols = 22;
-
-        $item_price = $this->currency . number_format($this->price, 0, ',', '.');
-        $item_subtotal = $this->currency . number_format($this->price * $this->qty, 0, ',', '.');
+        $number = new NumberFormatter($this->local, \NumberFormatter::CURRENCY );
+        $item_price = $number->format($this->price);
+        $item_subtotal = $number->format($this->price * $this->qty);
         
         $print_name = str_pad($this->name, 16) ;
         $print_priceqty = str_pad($item_price . ' x ' . $this->qty, $left_cols);

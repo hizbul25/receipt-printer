@@ -20,7 +20,6 @@ class ReceiptPrinter
     private $logo;
     private $store;
     private $items;
-    private $currency = 'Rp';
     private $subtotal = 0;
     private $tax_percentage = 10;
     private $tax = 0;
@@ -134,7 +133,7 @@ class ReceiptPrinter
         $left_cols = $is_double_width ? 6 : 12;
         $right_cols = $is_double_width ? 10 : 20;
 
-        $formatted_value = $this->currency . number_format($value, 0, ',', '.');
+        $formatted_value = (new \NumberFormatter(config('receiptprinter.local'), \NumberFormatter::CURRENCY ))->format($value);
 
         return str_pad($label, $left_cols) . str_pad($formatted_value, $right_cols, ' ', STR_PAD_LEFT);
     }
