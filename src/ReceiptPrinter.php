@@ -12,6 +12,7 @@ use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Hizbul\ReceiptPrinter\CurrencyManager;
 
 
 class ReceiptPrinter extends CurrencyManager
@@ -145,10 +146,10 @@ class ReceiptPrinter extends CurrencyManager
         $this->printer->cut();
     }
 
-    public function printDashedLine() {
+    public function printDashedLine(int $length = 32) {
         $line = '';
 
-        for ($i = 0; $i < 32; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $line .= '-';
         }
 
