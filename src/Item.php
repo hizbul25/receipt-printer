@@ -4,21 +4,16 @@ namespace Hizbul\ReceiptPrinter;
 
 use NumberFormatter;
 
-class Item
+class Item extends CurrencyManager
 {
     private $name;
     private $qty;
     private $price;
-    private $local;
 
     function __construct($name, $qty, $price) {
         $this->name = $name;
         $this->qty = $qty;
         $this->price = $price;
-    }
-
-    public function setLocal($local = null) {
-        $this->local = $local ?? config('receiptprinter.local') ;
     }
 
     public function getQty() {
@@ -33,9 +28,8 @@ class Item
     {
         $right_cols = 10;
         $left_cols = 22;
-        $number = new NumberFormatter($this->local, \NumberFormatter::CURRENCY );
-        $item_price = $number->format($this->price);
-        $item_subtotal = $number->format($this->price * $this->qty);
+        $item_price =$this->getFormattedPrice($this->price);
+        $item_subtotal = $this->getFormattedPrice($this->price * $this->qty);
         
         $print_name = str_pad($this->name, 16) ;
         $print_priceqty = str_pad($item_price . ' x ' . $this->qty, $left_cols);

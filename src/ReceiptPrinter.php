@@ -14,20 +14,20 @@ use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 
-class ReceiptPrinter
+class ReceiptPrinter extends CurrencyManager
 {
-    private $printer;
-    private $logo;
-    private $store;
-    private $items;
-    private $subtotal = 0;
-    private $tax_percentage = 10;
-    private $tax = 0;
-    private $discount = 0;
-    private $grandtotal = 0;
-    private $request_amount = 0;
-    private $qr_code = [];
-    private $transaction_id = '';
+    protected $printer;
+    protected $logo;
+    protected $store;
+    protected $items;
+    protected $subtotal = 0;
+    protected $tax_percentage = 10;
+    protected $tax = 0;
+    protected $discount = 0;
+    protected $grandtotal = 0;
+    protected $request_amount = 0;
+    protected $qr_code = [];
+    protected $transaction_id = '';
 
     function __construct() {
         $this->items = [];
@@ -70,6 +70,7 @@ class ReceiptPrinter
     public function setLogo($logo) {
         $this->logo = $logo;
     }
+
 
     public function addItem($name, $qty, $price) {
         $item = new Item($name, $qty, $price);
@@ -133,9 +134,7 @@ class ReceiptPrinter
         $left_cols = $is_double_width ? 6 : 12;
         $right_cols = $is_double_width ? 10 : 20;
 
-        $formatted_value = (new \NumberFormatter(config('receiptprinter.local'), \NumberFormatter::CURRENCY ))->format($value);
-
-        return str_pad($label, $left_cols) . str_pad($formatted_value, $right_cols, ' ', STR_PAD_LEFT);
+        return str_pad($label, $left_cols) . str_pad($this->getFormattedPrice($value), $right_cols, ' ', STR_PAD_LEFT);
     }
 
     public function feed($feed = NULL) {
